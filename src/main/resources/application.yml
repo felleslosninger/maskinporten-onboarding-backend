@@ -1,0 +1,29 @@
+proxy:
+  uri: http://localhost:9090
+frontend:
+  uri: http://localhost:3000
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          ansattporten:
+            clientId: ${ANSATTPORTEN_CLIENT_ID}
+            clientSecret: ${ANSATTPORTEN_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+              - idporten:dcr.datasharing
+            client-authentication-method: client_secret_basic
+
+        provider:
+          ansattporten:
+            authorization-uri: https://login.test.ansattporten.no/authorize?authorization_details=%5B%7B%22type%22%3A%22ansattporten%3Aaltinn%3Aservice%22%2C%22resource%22%3A+%22urn%3Aaltinn%3Aresource%3A2480%3A40%22%7D%5D&acr_values=substantial
+            token-uri: https://test.ansattporten.no/token
+            issuer-uri: https://test.ansattporten.no
+            user-info-uri: https://test.ansattporten.no/userInfo
+  cloud:
+    gateway:
+      proxy:
+        sensitive:
+          - "Cookie"
