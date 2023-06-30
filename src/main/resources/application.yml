@@ -1,5 +1,5 @@
 proxy:
-  uri: http://localhost:9090
+  uri: https://integrasjon-ver2.difi.no
 frontend:
   uri: http://localhost:3000
 spring:
