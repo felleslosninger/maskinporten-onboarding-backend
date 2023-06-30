@@ -27,9 +27,20 @@ spec:
             - containerPort: 8080
           livenessProbe:
             httpGet:
-              path: /proxy
+              path: /actuator/health/liveness
               port: 8080
           readinessProbe:
             httpGet:
-              path: /proxy
+              path: /actuator/health/readiness
               port: 8080
+          env:
+            - name: ANSATTPORTEN_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ansattporten-credential
+                  key: ANSATTPORTEN_CLIENT_ID
+            - name: ANSATTPORTEN_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ansattporten-credential
+                  key: ANSATTPORTEN_CLIENT_SECRET

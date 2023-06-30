@@ -27,3 +27,8 @@ spring:
       proxy:
         sensitive:
           - "Cookie"
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
