@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @CrossOrigin
 public class AppController {
 
+    public static final String CLIENT_REGISTRATION_ID = "ansattporten-2480";
     @Value("${proxy.uri}")
     private String proxyUri;
 
@@ -54,7 +55,7 @@ public class AppController {
     public ResponseEntity<?> proxyPath(ProxyExchange<byte[]> proxy, Authentication authentication,
                                        HttpServletRequest servletRequest,
                                        HttpServletResponse servletResponse) {
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId("ansattporten")
+        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
                 .principal(authentication)
                 .attributes(attrs -> {
                     attrs.put(HttpServletRequest.class.getName(), servletRequest);
@@ -75,7 +76,7 @@ public class AppController {
     public ResponseEntity<?> proxyPathPost(ProxyExchange<byte[]> proxy, Authentication authentication,
                                        HttpServletRequest servletRequest,
                                        HttpServletResponse servletResponse) throws IOException {
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId("ansattporten")
+        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
                 .principal(authentication)
                 .attributes(attrs -> {
                     attrs.put(HttpServletRequest.class.getName(), servletRequest);
