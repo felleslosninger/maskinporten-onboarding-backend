@@ -1,7 +1,7 @@
 proxy:
-  uri: https://integrasjon-ver2.difi.no
+  uri: ${MASKINPORTEN_API_URL}
 frontend:
-  uri: http://localhost:3000
+  uri: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}
 spring:
   security:
     oauth2:

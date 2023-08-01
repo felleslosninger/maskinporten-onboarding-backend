@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simplified-onboarding-api
+  labels:
+    app: simplified-onboarding-api
+spec:
+  selector:
+    matchLabels:
+      app: simplified-onboarding-api
+  template:
+    spec:
+      containers:
+        - name: simplified-onboarding-api
+          env:
+            - name: SIMPLIFIED_ONBOARDING_FRONTEND_URL
+              value: https://simplified-onboarding.staging.fellesdatakatalog.digdir.no
+            - name: MASKINPORTEN_API_URL
+              value: https://integrasjon-ver2.difi.no
