@@ -6,4 +6,4 @@ resources:
   - ../base
   - ingress.yaml
 patchesStrategicMerge:
-      - environment-variables.yaml
+  - environment-variables.yaml
