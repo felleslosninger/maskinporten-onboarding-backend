@@ -34,3 +34,8 @@ management:
         enabled: true
 cors:
   origin: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}
+server:
+  servlet:
+    session:
+      cookie:
+        secure: true
