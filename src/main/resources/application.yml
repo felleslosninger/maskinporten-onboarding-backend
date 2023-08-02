@@ -32,3 +32,5 @@ management:
     health:
       probes:
         enabled: true
+cors:
+  origin: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}

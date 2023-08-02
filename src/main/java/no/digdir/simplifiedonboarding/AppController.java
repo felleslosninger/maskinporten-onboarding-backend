@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
 public class AppController {
 
     public static final String CLIENT_REGISTRATION_ID = "ansattporten-2480";
