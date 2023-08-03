@@ -24,10 +24,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class AppController {
 
-    public static final String CLIENT_REGISTRATION_ID = "ansattporten-2480";
-    @Value("${proxy.uri}")
-    private String proxyUri;
-
     @Value("${frontend.uri}")
     private String frontendUri;
 
@@ -45,70 +41,4 @@ public class AppController {
         httpServletResponse.setStatus(302);
     }
 
-    @Autowired
-    private OAuth2AuthorizedClientManager authorizedClientManager;
-
-    @GetMapping("/datasharing/**")
-    public ResponseEntity<?> proxyPath(ProxyExchange<byte[]> proxy, Authentication authentication,
-                                       HttpServletRequest servletRequest,
-                                       HttpServletResponse servletResponse) {
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
-                .principal(authentication)
-                .attributes(attrs -> {
-                    attrs.put(HttpServletRequest.class.getName(), servletRequest);
-                    attrs.put(HttpServletResponse.class.getName(), servletResponse);
-                })
-                .build();
-        OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
-
-        OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
-
-
-        return proxy.uri(proxyUri + proxy.path("/api"))
-                .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
-                .get();
-    }
-
-    @PostMapping("/datasharing/**")
-    public ResponseEntity<?> proxyPathPost(ProxyExchange<byte[]> proxy, Authentication authentication,
-                                       HttpServletRequest servletRequest,
-                                       HttpServletResponse servletResponse) throws IOException {
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
-                .principal(authentication)
-                .attributes(attrs -> {
-                    attrs.put(HttpServletRequest.class.getName(), servletRequest);
-                    attrs.put(HttpServletResponse.class.getName(), servletResponse);
-                })
-                .build();
-        OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
-
-        OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
-
-
-        return proxy.uri(proxyUri + proxy.path("/api"))
-                .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
-                .body(servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator())))
-                .post();
-    }
-
-    @DeleteMapping("/datasharing/**")
-    public ResponseEntity<?> proxyPathDelete(ProxyExchange<byte[]> proxy, Authentication authentication,
-                                             HttpServletRequest servletRequest,
-                                             HttpServletResponse servletResponse,
-                                             @RequestParam String client_id) {
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
-                .principal(authentication)
-                .attributes(attrs -> {
-                    attrs.put(HttpServletRequest.class.getName(), servletRequest);
-                    attrs.put(HttpServletResponse.class.getName(), servletResponse);
-                })
-                .build();
-        OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
-
-        OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
-
-        return proxy.uri(proxyUri + proxy.path("/api") + "?client_id=" + client_id)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
-                .delete();
-    }
 }
