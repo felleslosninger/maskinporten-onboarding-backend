@@ -53,7 +53,7 @@ public class AppController {
     public ResponseEntity<?> proxyPath(ProxyExchange<byte[]> proxy, Authentication authentication,
                                        HttpServletRequest servletRequest,
                                        HttpServletResponse servletResponse) throws Throwable {
-        return getProxy(proxy, authentication, servletRequest, servletResponse, maskinportenConfig.getConfigFor("test") + proxy.path("/api"));
+        return getProxy(proxy, authentication, servletRequest, servletResponse, maskinportenConfig.getConfigFor("test").getApi() + proxy.path("/api"));
     }
 
     @GetMapping("/{env}/datasharing/**")
