@@ -28,6 +28,9 @@ public class AppController {
     @Value("${proxy.uri}")
     private String proxyUri;
 
+    @Autowired
+    private MaskinportenConfig maskinportenConfig;
+
     @Value("${frontend.uri}")
     private String frontendUri;
 
@@ -52,27 +55,41 @@ public class AppController {
     public ResponseEntity<?> proxyPath(ProxyExchange<byte[]> proxy, Authentication authentication,
                                        HttpServletRequest servletRequest,
                                        HttpServletResponse servletResponse) {
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
-                .principal(authentication)
-                .attributes(attrs -> {
-                    attrs.put(HttpServletRequest.class.getName(), servletRequest);
-                    attrs.put(HttpServletResponse.class.getName(), servletResponse);
-                })
-                .build();
-        OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
+        return getProxy(proxy, authentication, servletRequest, servletResponse, proxyUri + proxy.path("/api"));
+    }
 
-        OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
-
-
-        return proxy.uri(proxyUri + proxy.path("/api"))
-                .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
-                .get();
+    @GetMapping("/{env}/datasharing/**")
+    public ResponseEntity<?> proxyPathToEnv(ProxyExchange<byte[]> proxy, Authentication authentication,
+                                            HttpServletRequest servletRequest,
+                                            HttpServletResponse servletResponse,
+                                            @PathVariable("env") String environment) throws Throwable {
+        return getProxy(proxy, authentication, servletRequest, servletResponse, maskinportenConfig.getConfigFor(environment));
     }
 
     @PostMapping("/datasharing/**")
     public ResponseEntity<?> proxyPathPost(ProxyExchange<byte[]> proxy, Authentication authentication,
-                                       HttpServletRequest servletRequest,
-                                       HttpServletResponse servletResponse) throws IOException {
+                                           HttpServletRequest servletRequest,
+                                           HttpServletResponse servletResponse) throws IOException {
+        return postProxy(proxy, authentication, servletRequest, servletResponse, proxyUri);
+    }
+
+    @PostMapping("/{env}/datasharing/**")
+    public ResponseEntity<?> proxyPathToEnvPost(ProxyExchange<byte[]> proxy, Authentication authentication,
+                                                HttpServletRequest servletRequest,
+                                                HttpServletResponse servletResponse,
+                                                @PathVariable("env") String environment) throws Throwable {
+        return postProxy(proxy, authentication, servletRequest, servletResponse, maskinportenConfig.getConfigFor(environment));
+    }
+
+    private ResponseEntity<byte[]> getProxy(ProxyExchange<byte[]> proxy, Authentication authentication, HttpServletRequest servletRequest, HttpServletResponse servletResponse, MaskinportenConfig.EnvironmentConfig config) {
+        return getProxy(proxy, authentication, servletRequest, servletResponse, config.getApi() + proxy.path("/api/" + config.getEnvironment()));
+    }
+
+    private ResponseEntity<byte[]> postProxy(ProxyExchange<byte[]> proxy, Authentication authentication, HttpServletRequest servletRequest, HttpServletResponse servletResponse, MaskinportenConfig.EnvironmentConfig config) throws IOException {
+        return postProxy(proxy, authentication, servletRequest, servletResponse, config.getApi() + proxy.path("/api/" + config.getEnvironment()));
+    }
+
+    private ResponseEntity<byte[]> getProxy(ProxyExchange<byte[]> proxy, Authentication authentication, HttpServletRequest servletRequest, HttpServletResponse servletResponse, String url) {
         OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
                 .principal(authentication)
                 .attributes(attrs -> {
@@ -85,8 +102,26 @@ public class AppController {
         OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
 
 
-        return proxy.uri(proxyUri + proxy.path("/api"))
-                .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
+        return proxy.uri(url)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
+                .get();
+    }
+
+    private ResponseEntity<byte[]> postProxy(ProxyExchange<byte[]> proxy, Authentication authentication, HttpServletRequest servletRequest, HttpServletResponse servletResponse, String uri) throws IOException {
+        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
+                .principal(authentication)
+                .attributes(attrs -> {
+                    attrs.put(HttpServletRequest.class.getName(), servletRequest);
+                    attrs.put(HttpServletResponse.class.getName(), servletResponse);
+                })
+                .build();
+        OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
+
+        OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
+
+
+        return proxy.uri(uri + proxy.path("/api"))
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .body(servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator())))
                 .post();
     }

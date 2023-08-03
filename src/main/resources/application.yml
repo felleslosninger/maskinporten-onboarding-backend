@@ -1,5 +1,12 @@
 proxy:
   uri: ${MASKINPORTEN_API_URL}
+maskinporten-config:
+  - environment: test
+    api: ${MASKINPORTEN_API_URL}
+    well-known: "https://ver2.maskinporten.no/.well-known/oauth-authorization-server"
+  - environment: ver2
+    api: ${MASKINPORTEN_API_URL}
+    well-known: "https://test.maskinporten.no/.well-known/oauth-authorization-server"
 frontend:
   uri: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}
 spring:
