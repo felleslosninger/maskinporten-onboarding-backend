@@ -32,7 +32,7 @@ public class MaskinportenConfig {
     public static class EnvironmentConfig {
 
         private String environment;
-        private String wellKnown;
+        private String authorizationServer;
         private String api;
 
         public String getEnvironment() {
@@ -43,12 +43,12 @@ public class MaskinportenConfig {
             this.environment = environment;
         }
 
-        public String getWellKnown() {
-            return wellKnown;
+        public String getAuthorizationServer() {
+            return authorizationServer;
         }
 
-        public void setWellKnown(String wellKnown) {
-            this.wellKnown = wellKnown;
+        public void setAuthorizationServer(String authorizationServer) {
+            this.authorizationServer = authorizationServer;
         }
 
         public String getApi() {
