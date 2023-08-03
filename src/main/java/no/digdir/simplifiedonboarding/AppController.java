@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 public class AppController {
 
     public static final String CLIENT_REGISTRATION_ID = "ansattporten-2480";
-    @Value("${proxy.uri}")
-    private String proxyUri;
 
     @Autowired
     private MaskinportenConfig maskinportenConfig;
@@ -54,8 +52,8 @@ public class AppController {
     @GetMapping("/datasharing/**")
     public ResponseEntity<?> proxyPath(ProxyExchange<byte[]> proxy, Authentication authentication,
                                        HttpServletRequest servletRequest,
-                                       HttpServletResponse servletResponse) {
-        return getProxy(proxy, authentication, servletRequest, servletResponse, proxyUri + proxy.path("/api"));
+                                       HttpServletResponse servletResponse) throws Throwable {
+        return getProxy(proxy, authentication, servletRequest, servletResponse, maskinportenConfig.getConfigFor("test") + proxy.path("/api"));
     }
 
     @GetMapping("/{env}/datasharing/**")
@@ -69,8 +67,8 @@ public class AppController {
     @PostMapping("/datasharing/**")
     public ResponseEntity<?> proxyPathPost(ProxyExchange<byte[]> proxy, Authentication authentication,
                                            HttpServletRequest servletRequest,
-                                           HttpServletResponse servletResponse) throws IOException {
-        return postProxy(proxy, authentication, servletRequest, servletResponse, proxyUri);
+                                           HttpServletResponse servletResponse) throws Throwable {
+        return postProxy(proxy, authentication, servletRequest, servletResponse, maskinportenConfig.getConfigFor("test"));
     }
 
     @PostMapping("/{env}/datasharing/**")

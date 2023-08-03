@@ -1,5 +1,3 @@
-proxy:
-  uri: ${MASKINPORTEN_API_URL}
 maskinporten-config:
   - environment: test
     api: ${MASKINPORTEN_API_URL}
