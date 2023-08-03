@@ -90,4 +90,25 @@ public class AppController {
                 .body(servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator())))
                 .post();
     }
+
+    @DeleteMapping("/datasharing/**")
+    public ResponseEntity<?> proxyPathDelete(ProxyExchange<byte[]> proxy, Authentication authentication,
+                                             HttpServletRequest servletRequest,
+                                             HttpServletResponse servletResponse,
+                                             @RequestParam String client_id) {
+        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
+                .principal(authentication)
+                .attributes(attrs -> {
+                    attrs.put(HttpServletRequest.class.getName(), servletRequest);
+                    attrs.put(HttpServletResponse.class.getName(), servletResponse);
+                })
+                .build();
+        OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
+
+        OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
+
+        return proxy.uri(proxyUri + proxy.path("/api") + "?client_id=" + client_id)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
+                .delete();
+    }
 }
