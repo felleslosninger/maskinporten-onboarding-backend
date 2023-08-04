@@ -34,6 +34,7 @@ public class AppController {
         httpServletResponse.setStatus(302);
     }
 
+
     @GetMapping("/config")
     public Map<String, Map<String, String>> getConfiguration() throws Throwable {
         HashMap<String, Map<String, String>> map = new HashMap<>();
@@ -50,6 +51,5 @@ public class AppController {
         }
         return map;
     }
-
 
 }
