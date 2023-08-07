@@ -24,6 +24,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         OAuth2AuthorizedClientProvider authorizedClientProvider =
                 OAuth2AuthorizedClientProviderBuilder.builder()
                         .clientCredentials()
+                        .refreshToken()
                         .build();
 
         DefaultOAuth2AuthorizedClientManager authorizedClientManager =
