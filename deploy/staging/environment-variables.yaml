@@ -18,3 +18,7 @@ spec:
               value: https://simplified-onboarding.staging.fellesdatakatalog.digdir.no
             - name: MASKINPORTEN_API_URL
               value: https://integrasjon-ver2.difi.no
+            - name: ANSATTPORTEN_LOGIN_BASE_URL
+              value: https://login.test.ansattporten.no
+            - name: ANSATTPORTEN_API_BASE_URL
+              value: https://test.ansattporten.no
