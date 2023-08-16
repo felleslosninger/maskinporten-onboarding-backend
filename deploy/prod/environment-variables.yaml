@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simplified-onboarding-api
+  labels:
+    app: simplified-onboarding-api
+spec:
+  selector:
+    matchLabels:
+      app: simplified-onboarding-api
+  template:
+    spec:
+      containers:
+        - name: simplified-onboarding-api
+          env:
+            - name: SIMPLIFIED_ONBOARDING_FRONTEND_URL
+              value: https://simplified-onboarding.fellesdatakatalog.digdir.no
+            - name: MASKINPORTEN_API_URL
+              value: https://integrasjon.difi.no
+            - name: ANSATTPORTEN_LOGIN_BASE_URL
+              value: https://login.ansattporten.no
+            - name: ANSATTPORTEN_API_BASE_URL
+              value: https://ansattporten.no

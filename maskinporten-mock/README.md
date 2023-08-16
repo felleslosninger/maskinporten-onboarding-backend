@@ -1,0 +1,5 @@
+Run mockserver
+
+```
+npm start
+```

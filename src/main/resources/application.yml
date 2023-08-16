@@ -1,0 +1,46 @@
+maskinporten-config:
+  - environment: test
+    api: ${MASKINPORTEN_API_URL}
+    authorization-server: "https://test.maskinporten.no"
+  - environment: ver2
+    api: ${MASKINPORTEN_API_URL}
+    authorization-server: "https://ver2.maskinporten.no"
+frontend:
+  uri: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          ansattporten-2480:
+            clientId: ${ANSATTPORTEN_CLIENT_ID}
+            clientSecret: ${ANSATTPORTEN_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+              - idporten:dcr.datasharing
+            client-authentication-method: client_secret_basic
+
+        provider:
+          ansattporten-2480:
+            authorization-uri: ${ANSATTPORTEN_LOGIN_BASE_URL}/authorize?authorization_details=%5B%7B%22type%22%3A%22ansattporten%3Aaltinn%3Aservice%22%2C%22resource%22%3A+%22urn%3Aaltinn%3Aresource%3A2480%3A40%22%7D%5D&acr_values=substantial
+            token-uri: ${ANSATTPORTEN_API_BASE_URL}/token
+            issuer-uri: ${ANSATTPORTEN_API_BASE_URL}
+            user-info-uri: ${ANSATTPORTEN_API_BASE_URL}/userInfo
+  cloud:
+    gateway:
+      proxy:
+        sensitive:
+          - "Cookie"
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+cors:
+  origin: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}
+server:
+  servlet:
+    session:
+      cookie:
+        secure: true
