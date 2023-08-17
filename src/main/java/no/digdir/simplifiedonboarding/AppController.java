@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -26,6 +27,21 @@ public class AppController {
             return principal.getAttributes();
         }
         return null;
+    }
+
+    @GetMapping("/userinfo")
+    public Map<String, String > getAuthenticatedPrincipal(@AuthenticationPrincipal OAuth2User principal) {
+        if (principal != null) {
+            HashMap<String, String> userinfo = new HashMap<>();
+            String name = principal.getAttribute("name");
+            userinfo.put("name", name);
+            List authorization_details = principal.getAttribute("authorization_details");
+            List reportees = (List)((Map<String, Object>) authorization_details.get(0)).get("reportees");
+            Object reporteeName = ((Map<String, Object>) reportees.get(0)).get("Name");
+            userinfo.put("reporteeName",reporteeName.toString());
+            return userinfo;
+        }
+        return new HashMap<>();
     }
 
     @GetMapping("/authenticate")
