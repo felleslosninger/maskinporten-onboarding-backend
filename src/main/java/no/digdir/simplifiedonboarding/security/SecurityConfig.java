@@ -20,6 +20,9 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     @Value("${cors.origin}")
+    private String allowedOrgin;
+
+    @Value("${frontend.uri}")
     private String frontendApplication;
 
     @Bean
@@ -42,7 +45,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Arrays.asList(frontendApplication));
+        configuration.setAllowedOrigins(Arrays.asList(allowedOrgin));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
