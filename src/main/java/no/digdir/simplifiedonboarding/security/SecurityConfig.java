@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     @Value("${cors.origin}")
-    private String allowedOrgin;
+    private String frontendApplication;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/health/liveness", "/actuator/health/readiness").permitAll()
                         .anyRequest().authenticated()
                 )
+                .logout((logout) -> logout.logoutSuccessUrl(frontendApplication))
                 .oauth2Login(Customizer.withDefaults());
 
         return http.build();
@@ -41,7 +42,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Arrays.asList(allowedOrgin));
+        configuration.setAllowedOrigins(Arrays.asList(frontendApplication));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
