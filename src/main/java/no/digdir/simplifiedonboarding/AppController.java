@@ -21,14 +21,6 @@ public class AppController {
     @Autowired
     private MaskinportenConfig maskinportenConfig;
 
-    @GetMapping("/user")
-    public Map<String, Object> getAuthenticatedUser(@AuthenticationPrincipal OAuth2User principal) {
-        if (principal != null) {
-            return principal.getAttributes();
-        }
-        return null;
-    }
-
     @GetMapping("/userinfo")
     public Map<String, String > getAuthenticatedPrincipal(@AuthenticationPrincipal OAuth2User principal) {
         if (principal != null) {
