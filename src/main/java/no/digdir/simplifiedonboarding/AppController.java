@@ -36,7 +36,7 @@ public class AppController {
         return new HashMap<>();
     }
 
-    @GetMapping("/authenticate")
+    @GetMapping("/authenticate/{role}")
     public void authenticate(HttpServletResponse httpServletResponse) {
         httpServletResponse.setHeader("Location", frontendUri + "/dashboard");
         httpServletResponse.setStatus(302);
