@@ -1,6 +1,5 @@
 package no.digdir.simplifiedonboarding;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,13 +34,6 @@ public class AppController {
         }
         return new HashMap<>();
     }
-
-    @GetMapping("/authenticate/{role}")
-    public void authenticate(HttpServletResponse httpServletResponse) {
-        httpServletResponse.setHeader("Location", frontendUri + "/dashboard");
-        httpServletResponse.setStatus(302);
-    }
-
 
     @GetMapping("/config")
     public Map<String, Map<String, String>> getConfiguration() throws Throwable {

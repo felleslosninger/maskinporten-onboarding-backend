@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -37,14 +39,19 @@ public class SecurityConfig {
                         .requestMatchers("/api/config").permitAll()
                         .requestMatchers("/actuator/health/liveness", "/actuator/health/readiness").permitAll()
                         .anyRequest().authenticated()
-                ).oauth2Login(req->
-                        req.authorizationEndpoint(authorizationEndpointConfig ->
-                                authorizationEndpointConfig.authorizationRequestResolver(new AnsattportenRequestResolver()))
                 )
                 .logout((logout) -> logout.logoutSuccessUrl(frontendApplication))
-                .oauth2Login(Customizer.withDefaults());
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl(frontendApplication + "/dashboard", true)
+                        .failureHandler(authenticationFailureHandler())
+                );
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new Oauth2FailureHandler();
     }
 
 
