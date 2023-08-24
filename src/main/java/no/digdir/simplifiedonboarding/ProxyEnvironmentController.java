@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,8 @@ public class ProxyEnvironmentController {
                                             HttpServletResponse servletResponse,
                                             @PathVariable("env") String environment) throws Throwable {
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
+        String clientRegistrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
+        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(clientRegistrationId)
                 .principal(authentication)
                 .attributes(attrs -> {
                     attrs.put(HttpServletRequest.class.getName(), servletRequest);
@@ -58,7 +60,8 @@ public class ProxyEnvironmentController {
                                                 HttpServletResponse servletResponse,
                                                 @PathVariable("env") String environment) throws Throwable {
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
+        String clientRegistrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
+        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(clientRegistrationId)
                 .principal(authentication)
                 .attributes(attrs -> {
                     attrs.put(HttpServletRequest.class.getName(), servletRequest);
@@ -83,7 +86,8 @@ public class ProxyEnvironmentController {
                                              @PathVariable("env") String environment,
                                              @RequestParam String client_id) throws Throwable {
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
+        String clientRegistrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
+        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(clientRegistrationId)
                 .principal(authentication)
                 .attributes(attrs -> {
                     attrs.put(HttpServletRequest.class.getName(), servletRequest);
