@@ -33,25 +33,13 @@ public class ProxyEnvironmentController {
                                             HttpServletRequest servletRequest,
                                             HttpServletResponse servletResponse,
                                             @PathVariable("env") String environment) throws Throwable {
+        OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
+
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
-        String clientRegistrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(clientRegistrationId)
-                .principal(authentication)
-                .attributes(attrs -> {
-                    attrs.put(HttpServletRequest.class.getName(), servletRequest);
-                    attrs.put(HttpServletResponse.class.getName(), servletResponse);
-                })
-                .build();
-        OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
-
-        OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
-
-
         return proxy.uri(config.getApi() + proxy.path("/api/" + config.getEnvironment()))
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .get();
     }
-
 
 
     @PostMapping("/**")
@@ -59,20 +47,9 @@ public class ProxyEnvironmentController {
                                                 HttpServletRequest servletRequest,
                                                 HttpServletResponse servletResponse,
                                                 @PathVariable("env") String environment) throws Throwable {
+        OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
+
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
-        String clientRegistrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(clientRegistrationId)
-                .principal(authentication)
-                .attributes(attrs -> {
-                    attrs.put(HttpServletRequest.class.getName(), servletRequest);
-                    attrs.put(HttpServletResponse.class.getName(), servletResponse);
-                })
-                .build();
-        OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
-
-        OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
-
-
         return proxy.uri(config.getApi() + proxy.path("/api/" + config.getEnvironment()))
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .body(servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator())))
@@ -85,7 +62,16 @@ public class ProxyEnvironmentController {
                                              HttpServletResponse servletResponse,
                                              @PathVariable("env") String environment,
                                              @RequestParam String client_id) throws Throwable {
+        OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
+
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
+        return proxy.uri(config.getApi() + proxy.path("/api/" + config.getEnvironment()) + "?client_id=" + client_id)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
+                .delete();
+    }
+
+
+    private OAuth2AccessToken getAccessToken(Authentication authentication, HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         String clientRegistrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
         OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(clientRegistrationId)
                 .principal(authentication)
@@ -96,11 +82,6 @@ public class ProxyEnvironmentController {
                 .build();
         OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
 
-        OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
-
-        return proxy.uri(config.getApi() + proxy.path("/api/" + config.getEnvironment()) + "?client_id=" + client_id)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
-                .delete();
+        return authorizedClient.getAccessToken();
     }
-
 }
