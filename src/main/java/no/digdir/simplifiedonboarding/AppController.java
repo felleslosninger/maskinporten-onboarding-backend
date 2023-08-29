@@ -1,5 +1,7 @@
 package no.digdir.simplifiedonboarding;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,8 +16,7 @@ import java.util.Map;
 @RequestMapping("/api")
 public class AppController {
 
-    @Value("${frontend.uri}")
-    private String frontendUri;
+    private static final Logger logger = LoggerFactory.getLogger(ProxyEnvironmentController.class);
 
     @Autowired
     private MaskinportenConfig maskinportenConfig;
@@ -37,6 +38,7 @@ public class AppController {
 
     @GetMapping("/config")
     public Map<String, Map<String, String>> getConfiguration() throws Throwable {
+        logger.info("Fetching config");
         HashMap<String, Map<String, String>> map = new HashMap<>();
 
         //This should be rewritten to fetch issuer and token_endpoint from config.getAuthorizationServer() + "/.well-known/oauth-authorization-server". in accordance with https://datatracker.ietf.org/doc/html/rfc8414#section-3
@@ -49,6 +51,7 @@ public class AppController {
             envSpesifics.put("authorization_server", config.getAuthorizationServer());
             map.put(e, envSpesifics);
         }
+
         return map;
     }
 

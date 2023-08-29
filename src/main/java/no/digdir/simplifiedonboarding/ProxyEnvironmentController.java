@@ -2,6 +2,8 @@ package no.digdir.simplifiedonboarding;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.mvc.ProxyExchange;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +22,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/{env}/datasharing")
 public class ProxyEnvironmentController {
 
-    public static final String CLIENT_REGISTRATION_ID = "ansattporten-2480";
+    private static final Logger logger = LoggerFactory.getLogger(ProxyEnvironmentController.class);
 
     @Autowired
     private MaskinportenConfig maskinportenConfig;
@@ -36,7 +38,9 @@ public class ProxyEnvironmentController {
         OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
 
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
-        return proxy.uri(config.getApi() + proxy.path("/api/" + config.getEnvironment()))
+        String uri = config.getApi() + proxy.path("/api/" + config.getEnvironment());
+        logger.info("GET to {}", uri);
+        return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .get();
     }
@@ -50,7 +54,9 @@ public class ProxyEnvironmentController {
         OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
 
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
-        return proxy.uri(config.getApi() + proxy.path("/api/" + config.getEnvironment()))
+        String uri = config.getApi() + proxy.path("/api/" + config.getEnvironment());
+        logger.info("POST to {}", uri);
+        return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .body(servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator())))
                 .post();
@@ -65,7 +71,9 @@ public class ProxyEnvironmentController {
         OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
 
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
-        return proxy.uri(config.getApi() + proxy.path("/api/" + config.getEnvironment()) + "?client_id=" + client_id)
+        String uri = config.getApi() + proxy.path("/api/" + config.getEnvironment()) + "?client_id=" + client_id;
+        logger.info("DELETE to {}", uri);
+        return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
                 .delete();
     }
