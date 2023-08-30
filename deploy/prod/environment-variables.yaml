@@ -16,9 +16,19 @@ spec:
           env:
             - name: SIMPLIFIED_ONBOARDING_FRONTEND_URL
               value: https://simplified-onboarding.fellesdatakatalog.digdir.no
-            - name: MASKINPORTEN_API_URL
-              value: https://integrasjon.difi.no
             - name: ANSATTPORTEN_LOGIN_BASE_URL
               value: https://login.ansattporten.no
             - name: ANSATTPORTEN_API_BASE_URL
               value: https://ansattporten.no
+            - name: ENV1
+              value: test
+            - name: ENV1_MASKINPORTEN_API_URL
+              value: https://integrasjon-ver2.difi.no
+            - name: ENV1_AUTH_SERVER
+              value: https://test.maskinporten.no
+            - name: ENV2
+              value: prod
+            - name: ENV2_MASKINPORTEN_API_URL
+              value: https://integrasjon.difi.no
+            - name: ENV2_AUTH_SERVER
+              value: https://maskinporten.no
