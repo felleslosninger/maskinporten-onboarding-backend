@@ -8,7 +8,11 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -22,6 +26,9 @@ public class SecurityConfig {
     @Value("${cors.origin}")
     private String allowedOrgin;
 
+    @Value("${frontend.uri}")
+    private String frontendApplication;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -29,12 +36,22 @@ public class SecurityConfig {
                 .cors(httpSecurityCorsConfigurer
                         -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(a -> a
+                        .requestMatchers("/api/config").permitAll()
                         .requestMatchers("/actuator/health/liveness", "/actuator/health/readiness").permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(Customizer.withDefaults());
+                .logout((logout) -> logout.logoutSuccessUrl(frontendApplication))
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl(frontendApplication + "/dashboard", true)
+                        .failureHandler(authenticationFailureHandler())
+                );
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new Oauth2FailureHandler();
     }
 
 
