@@ -30,7 +30,7 @@ public class ProxyEnvironmentController {
     private OAuth2AuthorizedClientManager authorizedClientManager;
 
 
-    @GetMapping("/**")
+    @GetMapping("/datasharing/**")
     public ResponseEntity<?> proxyPathToEnv(ProxyExchange<byte[]> proxy, Authentication authentication,
                                             HttpServletRequest servletRequest,
                                             HttpServletResponse servletResponse,
@@ -49,8 +49,23 @@ public class ProxyEnvironmentController {
                 .get();
     }
 
+    @GetMapping("/**")
+    public ResponseEntity<?> proxyPathToEnvPublic(ProxyExchange<byte[]> proxy,
+                                            HttpServletRequest servletRequest,
+                                            @PathVariable("env") String environment) throws Throwable {
+        MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
+        String queries =servletRequest.getQueryString();
+        String uri = config.getApi() + proxy.path("/api/" + config.getEnvironment());
+        if (queries != null) {
+            uri += "?" + queries;
+        }
+        logger.info("GET to {}", uri);
+        return proxy.uri(uri)
+                .get();
+    }
 
-    @PostMapping("/**")
+
+    @PostMapping("/datasharing/**")
     public ResponseEntity<?> proxyPathToEnvPost(ProxyExchange<byte[]> proxy, Authentication authentication,
                                                 HttpServletRequest servletRequest,
                                                 HttpServletResponse servletResponse,
@@ -66,7 +81,7 @@ public class ProxyEnvironmentController {
                 .post();
     }
 
-    @DeleteMapping("/**")
+    @DeleteMapping("/datasharing/**")
     public ResponseEntity<?> proxyPathDelete(ProxyExchange<byte[]> proxy, Authentication authentication,
                                              HttpServletRequest servletRequest,
                                              HttpServletResponse servletResponse,
@@ -93,6 +108,7 @@ public class ProxyEnvironmentController {
                 })
                 .build();
         OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
+        logger.info(authorizedClient.getAccessToken().getTokenValue());
         return authorizedClient.getAccessToken();
     }
 }
