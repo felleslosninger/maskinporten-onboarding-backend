@@ -108,7 +108,6 @@ public class ProxyEnvironmentController {
                 })
                 .build();
         OAuth2AuthorizedClient authorizedClient = this.authorizedClientManager.authorize(authorizeRequest);
-        logger.info(authorizedClient.getAccessToken().getTokenValue());
         return authorizedClient.getAccessToken();
     }
 }
