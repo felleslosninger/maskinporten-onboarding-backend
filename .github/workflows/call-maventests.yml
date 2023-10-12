@@ -3,8 +3,6 @@
 # and https://github.com/felleslosninger/eid-github-workflows/blob/main/.github/workflows/maven-build.yml
 
 name: Testing maven build by calling reusable workflow
-env:
-  ANSATTPORTEN_API_BASE_URL: https://test.ansattporten.no
 
 on:
   pull_request:
@@ -13,6 +11,8 @@ on:
 jobs:
   call-workflow-maven-build:
     uses: felleslosninger/eid-github-workflows/.github/workflows/maven-build.yml@main
+    env:
+      ANSATTPORTEN_API_BASE_URL: https://test.ansattporten.no
     with:
       java-version: 17
     secrets:
