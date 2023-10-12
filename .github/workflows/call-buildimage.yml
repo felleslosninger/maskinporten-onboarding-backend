@@ -4,14 +4,17 @@
 name: Build/publish Docker image & update image version in config
 
 on:
-  push:
+  # TODO: Fix this
+  # push:
+  #   branches: [ main ]
+  #   paths-ignore:
+  #     - 'src/test/**'
+  #     - 'docker/**'
+  #     - 'docker-compose*.yaml'
+  #     - '*.md'
+  #     - 'LICENSE'
+  pull_request:
     branches: [ main ]
-    paths-ignore:
-      - 'src/test/**'
-      - 'docker/**'
-      - 'docker-compose*.yaml'
-      - '*.md'
-      - 'LICENSE'
 
 jobs:
   call-workflow-image-build-publish:
