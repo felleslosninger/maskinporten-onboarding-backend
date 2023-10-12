@@ -13,7 +13,9 @@ jobs:
     uses: felleslosninger/eid-github-workflows/.github/workflows/maven-build.yml@main
     with:
       java-version: 17
-    secrets: inherit
+    secrets:
+      maven-user: ${{ secrets.MAVEN_USER }}
+      maven-password: ${{ secrets.MAVEN_PASSWORD }}
   # call-container-scan:
   #   uses: felleslosninger/github-workflows-internal/.github/workflows/spring-boot-container-scan.yml@main
   #   with:
