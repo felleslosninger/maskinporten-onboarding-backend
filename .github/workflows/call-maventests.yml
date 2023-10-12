@@ -13,6 +13,8 @@ jobs:
     uses: felleslosninger/eid-github-workflows/.github/workflows/maven-build.yml@main
     with:
       java-version: 17
+    env:
+      ANSATTPORTEN_API_BASE_URL: 'https://test.ansattporten.no'
     secrets:
       maven-user: ${{ secrets.MAVEN_USER }}
       maven-password: ${{ secrets.MAVEN_PASSWORD }}
