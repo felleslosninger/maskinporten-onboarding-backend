@@ -11,8 +11,6 @@ on:
 jobs:
   call-workflow-maven-build:
     uses: felleslosninger/eid-github-workflows/.github/workflows/maven-build.yml@main
-    env:
-      ANSATTPORTEN_API_BASE_URL: https://test.ansattporten.no
     with:
       java-version: 17
     secrets:
