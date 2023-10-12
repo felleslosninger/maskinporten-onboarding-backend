@@ -1,15 +1,6 @@
 name: Code scanning (CodeQL)
 
-on:
-  pull_request:
-    types: [ready_for_review, opened, reopened, synchronize]
-    branches:
-      - main
-  push:
-    branches:
-      - main
-  schedule:
-    - cron:  '0 2 * * *'
+on: workflow_dispatch
 
 jobs:
   codeql:
