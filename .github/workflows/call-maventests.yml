@@ -4,7 +4,7 @@
 
 name: Testing maven build by calling reusable workflow
 env:
-  ANSATTPORTEN_API_BASE_URL: 'https://test.ansattporten.no'
+  ANSATTPORTEN_API_BASE_URL: https://test.ansattporten.no
 
 on:
   pull_request:
