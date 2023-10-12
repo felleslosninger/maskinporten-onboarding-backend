@@ -1,3 +1,5 @@
+#TODO: Fix with more sensible and non-hardcoded approach to env variables in environments and testruns
+
 ANSATTPORTEN_API_BASE_URL: https://test.ansattporten.no
 ANSATTPORTEN_CLIENT_ID: forenklet_onboarding_dev
 ANSATTPORTEN_CLIENT_SECRET: redacted
