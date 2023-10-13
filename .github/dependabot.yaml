@@ -10,5 +10,6 @@ updates:
   # Maintain dependencies for java
   - package-ecosystem: "maven"
     directory: "/"
+    target-branch: "dev"
     schedule:
       interval: "weekly"

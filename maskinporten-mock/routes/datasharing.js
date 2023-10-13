@@ -58,12 +58,14 @@ router.get('/consumer/scope/access', function (req, res, next) {
         "active": true,
         "prefix": "svv",
         "subscope": "api",
+        "owner_orgno": "971032081",
         "description": "Gir tilgang tli svv sitt kjøretøysregister."
         }, {
-        "name": "pilot:datasett",
+        "name": "entur:data.1",
         "active": true,
-        "prefix": "pilot",
-        "subscope": "datasett",
+        "prefix": "entur",
+        "owner_orgno": "917422575",
+        "subscope": "data.1",
         "description": "Gir tilgang til et eksempel-skyportenressurs for å støttet tines mockapI"
     }
     ]
