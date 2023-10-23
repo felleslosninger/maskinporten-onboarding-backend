@@ -39,7 +39,6 @@ public class Oauth2FailureHandler implements AuthenticationFailureHandler {
             }
         }
 
-
         response.setHeader("Location", uriBuilder.toUriString());
         response.setStatus(HttpStatus.FOUND.value());
     }
