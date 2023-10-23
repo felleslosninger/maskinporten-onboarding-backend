@@ -56,3 +56,5 @@ server:
     session:
       cookie:
         secure: true
+        max-age: 10m
+      timeout: 10m
