@@ -5,11 +5,12 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    open-pull-requests-limit: 10
 
   # Maintain dependencies for java
   - package-ecosystem: "maven"
     directory: "/"
-    target-branch: "dev"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    open-pull-requests-limit: 10
