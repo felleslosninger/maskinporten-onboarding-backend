@@ -1,23 +1,22 @@
-# This workflow will build a Java Spring-boot project with Maven
-# See: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-# and https://github.com/felleslosninger/eid-github-workflows/blob/main/.github/workflows/maven-build.yml
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
 name: Testing maven build by calling reusable workflow
 
 on:
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - "**.md"
 
 jobs:
   call-workflow-maven-build:
-    uses: felleslosninger/eid-github-workflows/.github/workflows/maven-build.yml@main
+    uses: felleslosninger/github-workflows/.github/workflows/ci-maven-build.yml@main
     with:
       java-version: 17
-    secrets:
-      maven-user: ${{ secrets.MAVEN_USER }}
-      maven-password: ${{ secrets.MAVEN_PASSWORD }}
-  # call-container-scan:
-  #   uses: felleslosninger/github-workflows-internal/.github/workflows/spring-boot-container-scan.yml@main
-  #   with:
-  #     java-version: 17
-  #   secrets: inherit
+    secrets: inherit
+  call-container-scan:
+    uses: felleslosninger/github-workflows/.github/workflows/ci-spring-boot-container-scan.yml@main
+    with:
+      java-version: 17
+    secrets: inherit

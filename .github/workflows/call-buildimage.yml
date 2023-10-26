@@ -17,9 +17,8 @@ on:
 
 jobs:
   call-workflow-image-build-publish:
-    uses: felleslosninger/eid-github-workflows/.github/workflows/spring-boot-build-publish-image.yml@main
+    uses: felleslosninger/github-workflows/.github/workflows/ci-spring-boot-build-publish-image.yml@main
     with:
-      image-name: selvbetjening-onboarding-maskinporten-api
       java-version: 17
     secrets:
       maven-user: ${{ secrets.MAVEN_USER }}
@@ -27,3 +26,11 @@ jobs:
       registry-url: ${{ secrets.REGISTRY_URL }}
       registry-username: ${{ secrets.REGISTRY_USERNAME }}
       registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+  call-update-image-version:
+    uses: felleslosninger/github-workflows/.github/workflows/ci-update-image-version.yml@main
+    needs: call-workflow-image-build-publish
+    with:
+      kubernetes-repo: selvbetjening-cd-external
+      image-version: ${{ needs.call-workflow-image-build-publish.outputs.image-version }}
+      image-digest: ${{ needs.call-workflow-image-build-publish.outputs.image-digest }}
+    secrets: inherit
