@@ -1,13 +1,27 @@
-ANSATTPORTEN_API_BASE_URL: ''
-ANSATTPORTEN_CLIENT_ID: ''
-ANSATTPORTEN_CLIENT_SECRET: ''
-ANSATTPORTEN_LOGIN_BASE_URL: ''
-MASKINPORTEN_API_URL: ''
+# Bare minimum overrides to avoid auto-config fails while running tests
 
-ENV1: ''
-ENV1_MASKINPORTEN_API_URL: ''
-ENV1_AUTH_SERVER: ''
-ENV2: ''
-ENV2_MASKINPORTEN_API_URL: ''
-ENV2_AUTH_SERVER: ''
-SIMPLIFIED_ONBOARDING_FRONTEND_URL: ''
+maskinporten-config:
+  - environment: aaa
+    api: bbb
+    authorization-server: ccc
+frontend:
+  uri: https://foo/
+cors:
+  origin: https://foo/
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          foo:
+            clientId: bar
+            clientSecret: baz
+            authorization-grant-type: authorization_code
+            scope: [openid]
+            client-authentication-method: client_secret_basic
+        provider:
+          foo:
+            authorization-uri: a
+            token-uri: b
+            issuer-uri: https://test.ansattporten.no # must respond with /.well-known/openid-configuration
+            user-info-uri: c
