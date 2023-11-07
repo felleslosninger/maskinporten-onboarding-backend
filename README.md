@@ -1,20 +1,22 @@
-# api-access-request
+# Maskinporten Onboarding: Backend
 
 ## Development
 
-Requires env-variables 
+Run application with [Spring Profile](https://www.baeldung.com/spring-profiles) `dev` to use the default development environment.
+
+Alternatively, inject the following [env vars](https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html) in your context:
 ```
+ANSATTPORTEN_API_BASE_URL
 ANSATTPORTEN_CLIENT_ID
 ANSATTPORTEN_CLIENT_SECRET
-MASKINPORTEN_API_URL
-SIMPLIFIED_ONBOARDING_FRONTEND_URL
 ANSATTPORTEN_LOGIN_BASE_URL
-ANSATTPORTEN_API_BASE_URL
-```
+MASKINPORTEN_API_URL
 
-and 
+ENV1
+ENV1_MASKINPORTEN_API_URL
+ENV1_AUTH_SERVER
+ENV2
+ENV2_MASKINPORTEN_API_URL
+ENV2_AUTH_SERVER
+SIMPLIFIED_ONBOARDING_FRONTEND_URL
 ```
-ENV1=test;ENV1_MASKINPORTEN_API_URL=https://integrasjon-ver2.difi.no;ENV1_AUTH_SERVER=https://test.maskinporten.no;ENV2=ver2;ENV2_MASKINPORTEN_API_URL=https://integrasjon-ver2.difi.no;ENV2_AUTH_SERVER=https://ver2.maskinporten.no;
-```
-
-This can be configured using [IntelliJ-env-variables](https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html#add-environment-variables)
