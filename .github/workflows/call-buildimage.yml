@@ -20,12 +20,7 @@ jobs:
     uses: felleslosninger/github-workflows/.github/workflows/ci-spring-boot-build-publish-image.yml@main
     with:
       java-version: 17
-    secrets:
-      maven-user: ${{ secrets.MAVEN_USER }}
-      maven-password: ${{ secrets.MAVEN_PASSWORD }}
-      registry-url: ${{ secrets.REGISTRY_URL }}
-      registry-username: ${{ secrets.REGISTRY_USERNAME }}
-      registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+    secrets: inherit
   call-update-image-version:
     uses: felleslosninger/github-workflows/.github/workflows/ci-update-image-version.yml@main
     needs: call-workflow-image-build-publish
