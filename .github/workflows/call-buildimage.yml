@@ -30,7 +30,7 @@ jobs:
     uses: felleslosninger/github-workflows/.github/workflows/ci-update-image-version.yml@main
     needs: call-workflow-image-build-publish
     with:
-      kubernetes-repo: selvbetjening-cd-external
+      kubernetes-repo: kundetjenester-cd-external
       image-version: ${{ needs.call-workflow-image-build-publish.outputs.image-version }}
       image-digest: ${{ needs.call-workflow-image-build-publish.outputs.image-digest }}
     secrets: inherit
