@@ -45,6 +45,13 @@ spring:
         sensitive:
           - "Cookie"
 management:
+  server:
+    port: 8090
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: info,version,prometheus,health
   endpoint:
     health:
       probes:

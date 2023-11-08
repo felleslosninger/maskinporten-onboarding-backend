@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/api/config").permitAll()
                         .requestMatchers("/actuator/health/liveness", "/actuator/health/readiness").permitAll()
+                        .requestMatchers("/health/liveness", "/health/readiness").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout.logoutSuccessUrl(frontendApplication))
