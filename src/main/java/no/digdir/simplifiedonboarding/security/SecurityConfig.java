@@ -37,8 +37,7 @@ public class SecurityConfig {
                         -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/api/config").permitAll()
-                        .requestMatchers("/actuator/health/liveness", "/actuator/health/readiness").permitAll()
-                        .requestMatchers("/health/liveness", "/health/readiness").permitAll()
+                        .requestMatchers("/health/**", "/info/**", "/version/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout.logoutSuccessUrl(frontendApplication))
