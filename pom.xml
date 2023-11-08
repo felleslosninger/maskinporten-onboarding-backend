@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<snakeyaml.version>2.0</snakeyaml.version><!-- To avoid CVE-2022-1471  -->
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
+		<idporten-actuator.version>1.0.1</idporten-actuator.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -44,6 +45,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>no.idporten.actuator</groupId>
+			<artifactId>idporten-actuator-starter</artifactId>
+			<version>${idporten-actuator.version}</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -63,9 +70,34 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 		<finalName>app</finalName>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>https://repo1.maven.org/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>github</id>
+			<name>GitHub felleslosninger Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/felleslosninger/.github</url>
+		</repository>
+	</repositories>
 
 </project>
