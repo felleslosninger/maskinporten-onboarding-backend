@@ -1,6 +1,7 @@
+# Requires ANSATTPORTEN_CLIENT_SECRET from env vars
+
 ANSATTPORTEN_API_BASE_URL: https://test.ansattporten.no
 ANSATTPORTEN_CLIENT_ID: forenklet_onboarding_dev
-ANSATTPORTEN_CLIENT_SECRET: redacted
 ANSATTPORTEN_LOGIN_BASE_URL: https://login.test.ansattporten.no
 MASKINPORTEN_API_URL: https://integrasjon-ver2.difi.no
 
