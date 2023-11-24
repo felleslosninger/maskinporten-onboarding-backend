@@ -12,8 +12,7 @@ ENV1_AUTH_SERVER: https://integrasjon-ver2.difi.no
 ENV2: ver2
 ENV2_MASKINPORTEN_API_URL: https://integrasjon-ver2.difi.no
 ENV2_AUTH_SERVER: https://ver2.maskinporten.no
-SIMPLIFIED_ONBOARDING_FRONTEND_URL: https://onboarding.maskinporten.dev
-
+SIMPLIFIED_ONBOARDING_FRONTEND_URL: https://onboarding.test.maskinporten.no
 
 management:
   endpoint:
