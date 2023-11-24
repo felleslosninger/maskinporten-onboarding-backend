@@ -1,0 +1,21 @@
+# Vault provides:
+# - ANSATTPORTEN_CLIENT_ID
+# - ANSATTPORTEN_CLIENT_SECRET
+
+ANSATTPORTEN_API_BASE_URL: https://ansattporten.no
+ANSATTPORTEN_LOGIN_BASE_URL: https://login.ansattporten.no
+MASKINPORTEN_API_URL: https://integrasjon.difi.no
+
+ENV1: test
+ENV1_MASKINPORTEN_API_URL: https://integrasjon-ver2.difi.no
+ENV1_AUTH_SERVER: https://integrasjon-ver2.difi.no
+ENV2: prod
+ENV2_MASKINPORTEN_API_URL: https://integrasjon.difi.no
+ENV2_AUTH_SERVER: https://maskinporten.no
+SIMPLIFIED_ONBOARDING_FRONTEND_URL: https://onboarding.maskinporten.no
+
+management:
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
