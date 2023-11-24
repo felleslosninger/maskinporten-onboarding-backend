@@ -5,8 +5,10 @@ maskinporten-config:
   - environment: ${ENV2}
     api: ${ENV2_MASKINPORTEN_API_URL}
     authorization-server: ${ENV2_AUTH_SERVER}
+
 frontend:
   uri: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}
+
 spring:
   security:
     oauth2:
@@ -44,6 +46,7 @@ spring:
       proxy:
         sensitive:
           - "Cookie"
+
 management:
   server:
     port: 8090
@@ -56,8 +59,10 @@ management:
     health:
       probes:
         enabled: true
+
 cors:
   origin: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}
+
 server:
   servlet:
     session:
