@@ -21,11 +21,17 @@ public class MaskinportenConfig {
     }
 
     public List<String> getEnvironments(){
-        return getMaskinportenConfig().stream().map(environmentConfig -> environmentConfig.getEnvironment()).collect(Collectors.toList());
+        return getMaskinportenConfig()
+                .stream()
+                .map(EnvironmentConfig::getEnvironment)
+                .collect(Collectors.toList());
     }
 
     public EnvironmentConfig getConfigFor(String environment) throws Throwable {
-        Optional<EnvironmentConfig> environmentConfigOptional = getMaskinportenConfig().stream().filter(environmentConfig -> environmentConfig.getEnvironment().equalsIgnoreCase(environment)).findFirst();
+        Optional<EnvironmentConfig> environmentConfigOptional = getMaskinportenConfig()
+                .stream()
+                .filter(environmentConfig -> environmentConfig.getEnvironment().equalsIgnoreCase(environment))
+                .findFirst();
         return environmentConfigOptional.orElseThrow((Supplier<Throwable>) UnsupportedOperationException::new);
     }
 

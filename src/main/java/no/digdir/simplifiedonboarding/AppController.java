@@ -3,12 +3,12 @@ package no.digdir.simplifiedonboarding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,13 +39,13 @@ public class AppController {
     @GetMapping("/config")
     public Map<String, Map<String, String>> getConfiguration() throws Throwable {
         logger.info("Fetching config");
-        HashMap<String, Map<String, String>> map = new HashMap<>();
+        HashMap<String, Map<String, String>> map = new LinkedHashMap<>();
 
         //This should be rewritten to fetch issuer and token_endpoint from config.getAuthorizationServer() + "/.well-known/oauth-authorization-server". in accordance with https://datatracker.ietf.org/doc/html/rfc8414#section-3
 
         for ( String e : maskinportenConfig.getEnvironments()) {
             MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(e);
-            HashMap<String, String> envSpesifics = new HashMap<>();
+            HashMap<String, String> envSpesifics = new LinkedHashMap<>();
             envSpesifics.put("issuer", config.getAuthorizationServer()+ "/");
             envSpesifics.put("token_endpoint", config.getAuthorizationServer()+ "/token");
             envSpesifics.put("authorization_server", config.getAuthorizationServer());
