@@ -1,8 +1,6 @@
-# Maskinporten Onboarding: Backend
+# Makinporten-onboaring-backend
 
 ## Development
-
-Run application with [Spring Profile](https://www.baeldung.com/spring-profiles) `dev` to use the default development environment.
 
 Additionally, you must inject the _ansattporten client secret_ in the context.
 

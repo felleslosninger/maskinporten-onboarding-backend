@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.5</version>
+		<version>3.2.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>no.digdir</groupId>
@@ -17,9 +17,11 @@
 		<java.version>17</java.version>
 		<snakeyaml.version>2.0</snakeyaml.version><!-- To avoid CVE-2022-1471  -->
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
-		<idporten-actuator.version>1.0.1</idporten-actuator.version>
+		<idporten-actuator.version>1.1.0</idporten-actuator.version>
+		<logback.version>1.4.12</logback.version>
 	</properties>
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
