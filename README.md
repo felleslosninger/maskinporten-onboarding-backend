@@ -9,4 +9,3 @@ An easy way to manage this is with the [EnvFile](https://plugins.jetbrains.com/p
 # client secret associated with `forenklet_onboarding_dev`
 ANSATTPORTEN_CLIENT_SECRET=<thesecret>
 ```
-
