@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+// TODO: Remove this comment.
+
 @SpringBootApplication
 @EnableConfigurationProperties({MaskinportenConfig.class})
 public class SimplifiedOnboardingApplication {
