@@ -1,5 +1,0 @@
-Run mockserver
-
-```
-npm start
-```
