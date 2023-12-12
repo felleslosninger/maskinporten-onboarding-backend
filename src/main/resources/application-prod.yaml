@@ -13,3 +13,7 @@ ENV2: prod
 ENV2_MASKINPORTEN_API_URL: https://integrasjon.difi.no
 ENV2_AUTH_SERVER: https://maskinporten.no
 SIMPLIFIED_ONBOARDING_FRONTEND_URL: https://onboarding.maskinporten.no
+
+spring:
+  application:
+    environment: prod

@@ -10,6 +10,15 @@
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
+    <springProfile name="!dev">
+        <logger name="no.digdir" level="INFO" additivity="false">
+            <appender-ref ref="APPLICATION"/>
+        </logger>
+
+        <root level="WARN"> <!-- TEK BERRE MED WARN+ FOR 3.PARTS LIB. -->
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
 
     <appender name="APPLICATION" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
@@ -17,10 +26,10 @@
             <customFields>{"application":"${APP-NAME}","environment":"${APP-ENV}","logtype":"application"}</customFields>
         </encoder>
     </appender>
-    <springProfile name="!dev">
-        <logger name="no.digdir" level="INFO">
-            <appender-ref ref="APPLICATION"/>
-        </logger>
-
-    </springProfile>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdc>true</includeMdc>
+            <customFields>{"application":"${APP-NAME}","environment":"${APP-ENV}","logtype":"application"}</customFields>
+        </encoder>
+    </appender>
 </configuration>

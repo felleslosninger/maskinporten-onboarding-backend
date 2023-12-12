@@ -10,6 +10,9 @@ frontend:
   uri: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}
 
 spring:
+  application:
+    name: maskinporten-onboarding-backend
+    environment: default
   security:
     oauth2:
       client:
