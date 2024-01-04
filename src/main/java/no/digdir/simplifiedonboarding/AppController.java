@@ -28,7 +28,7 @@ public class AppController {
     @Autowired
     private MaskinportenConfig maskinportenConfig;
 
-    @Value("${env}")
+    @Value("${spring.application.environment}")
     private String environment;
 
     @GetMapping("/userinfo")
@@ -72,10 +72,10 @@ public class AppController {
         logger.info("Fetching list of signed orgs");
         String fileName;
 
-        if (environment.equals("test")) {
-            fileName = "classpath:signedOrgsTest.csv";
-        } else {
+        if (environment.equals("prod")) {
             fileName = "classpath:signedOrgs.csv";
+        } else {
+            fileName = "classpath:signedOrgsTest.csv";
         }
 
         Path path = Paths.get(ResourceUtils.getFile(fileName).toURI());

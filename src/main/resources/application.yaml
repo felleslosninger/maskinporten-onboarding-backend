@@ -9,8 +9,6 @@ maskinporten-config:
 frontend:
   uri: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}
 
-env: ${SPRING_BOOT_ENV}
-
 spring:
   application:
     name: maskinporten-onboarding-backend

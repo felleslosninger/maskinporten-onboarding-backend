@@ -5,7 +5,6 @@
 ANSATTPORTEN_API_BASE_URL: https://ansattporten.no
 ANSATTPORTEN_LOGIN_BASE_URL: https://login.ansattporten.no
 MASKINPORTEN_API_URL: https://integrasjon.difi.no
-SPRING_BOOT_ENV: prod
 
 ENV1: test
 ENV1_MASKINPORTEN_API_URL: https://integrasjon-ver2.difi.no
