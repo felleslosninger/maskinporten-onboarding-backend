@@ -4,6 +4,7 @@ ANSATTPORTEN_API_BASE_URL: https://test.ansattporten.no
 ANSATTPORTEN_CLIENT_ID: forenklet_onboarding_dev
 ANSATTPORTEN_LOGIN_BASE_URL: https://login.test.ansattporten.no
 MASKINPORTEN_API_URL: https://integrasjon-ver2.difi.no
+SPRING_BOOT_ENV: test
 
 ENV1: test
 ENV1_MASKINPORTEN_API_URL: https://integrasjon-ver2.difi.no
