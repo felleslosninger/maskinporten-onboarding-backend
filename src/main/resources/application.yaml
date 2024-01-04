@@ -12,6 +12,9 @@ frontend:
 env: ${SPRING_BOOT_ENV}
 
 spring:
+  application:
+    name: maskinporten-onboarding-backend
+    environment: default
   security:
     oauth2:
       client:

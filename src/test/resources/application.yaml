@@ -1,5 +1,8 @@
 # Bare minimum overrides to avoid auto-config fails while running tests
 
+management:
+  server:
+    port:  # Sets management port to same as server.port (default=8080)
 maskinporten-config:
   - environment: aaa
     api: bbb

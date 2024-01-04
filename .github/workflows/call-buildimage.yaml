@@ -6,12 +6,6 @@ name: Build and publish Docker image
 on:
   push:
     branches: [ main ]
-    paths-ignore:
-      - 'src/test/**'
-      - 'docker/**'
-      - 'docker-compose*.yaml'
-      - '*.md'
-      - 'LICENSE'
 
 jobs:
   call-workflow-image-build-publish:

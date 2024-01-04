@@ -71,7 +71,6 @@ public class AppController {
     public Resource getListOfSignedOrgs() throws Throwable {
         logger.info("Fetching list of signed orgs");
         String fileName;
-        System.out.println(environment);
 
         if (environment.equals("test")) {
             fileName = "classpath:signedOrgsTest.csv";
