@@ -3,10 +3,17 @@ package no.digdir.simplifiedonboarding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,6 +28,9 @@ public class AppController {
     @Autowired
     private MaskinportenConfig maskinportenConfig;
 
+    @Value("${spring.application.environment}")
+    private String environment;
+
     @GetMapping("/userinfo")
     public Map<String, String > getAuthenticatedPrincipal(@AuthenticationPrincipal OAuth2User principal) {
         if (principal != null) {
@@ -30,7 +40,9 @@ public class AppController {
             List authorization_details = principal.getAttribute("authorization_details");
             List reportees = (List)((Map<String, Object>) authorization_details.get(0)).get("reportees");
             Object reporteeName = ((Map<String, Object>) reportees.get(0)).get("Name");
+            Object reporteeId = ((Map<String, Object>) reportees.get(0)).get("ID");
             userinfo.put("reporteeName",reporteeName.toString());
+            userinfo.put("reporteeId", reporteeId.toString().split(":")[1]);
             return userinfo;
         }
         return new HashMap<>();
@@ -53,6 +65,21 @@ public class AppController {
         }
 
         return map;
+    }
+
+    @GetMapping("/signedOrgs")
+    public Resource getListOfSignedOrgs() throws Throwable {
+        logger.info("Fetching list of signed orgs");
+        String fileName;
+
+        if (environment.equals("prod")) {
+            fileName = "classpath:signedOrgs.csv";
+        } else {
+            fileName = "classpath:signedOrgsTest.csv";
+        }
+
+        Path path = Paths.get(ResourceUtils.getFile(fileName).toURI());
+        return new ByteArrayResource(Files.readAllBytes(path));
     }
 
 }
