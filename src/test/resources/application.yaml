@@ -12,6 +12,8 @@ frontend:
 cors:
   origin: https://foo/
 spring:
+  application:
+    environment: dev
   security:
     oauth2:
       client:
