@@ -11,13 +11,12 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -67,9 +66,9 @@ public class AppController {
         return map;
     }
 
-    @GetMapping("/signedOrgs")
-    public Resource getListOfSignedOrgs() throws Throwable {
-        logger.info("Fetching list of signed orgs");
+    @GetMapping("/shouldSign")
+    public boolean getSignatureStatus(@RequestParam("org") String orgnr) throws Throwable {
+        logger.info("Fetching org sign status");
         String fileName;
 
         if (environment.equals("prod")) {
@@ -78,8 +77,18 @@ public class AppController {
             fileName = "classpath:signedOrgsTest.csv";
         }
 
+        List<String> signedOrgs = new ArrayList<>();
         Path path = Paths.get(ResourceUtils.getFile(fileName).toURI());
-        return new ByteArrayResource(Files.readAllBytes(path));
+        Resource resource = new ByteArrayResource(Files.readAllBytes(path));
+        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+        String line;
+        while ((line = br.readLine()) != null) {
+            List<String> values = Arrays.stream(line.split(",")).toList();
+            signedOrgs.addAll(values);
+        }
+
+
+        return !signedOrgs.contains(orgnr);
     }
 
 }
