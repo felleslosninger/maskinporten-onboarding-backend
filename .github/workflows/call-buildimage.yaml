@@ -14,15 +14,15 @@ jobs:
       java-version: 17
     secrets: inherit
 
-  call-update-image-version:
-    uses: felleslosninger/github-workflows/.github/workflows/update-image-version.yml@main
+  call-update-image:
+    uses: felleslosninger/github-workflows/.github/workflows/ci-call-update-image.yml@main
     needs: call-workflow-image-build-publish
     with:
       application-name: maskinporten-onboarding-backend
-      product-name: onboarding
-      kubernetes-repo: kundetjenester-cd-external
-      image-version: ${{ needs.call-workflow-image-build-publish.outputs.image-version }}
+      deployment-environment: systest
       image-digest: ${{ needs.call-workflow-image-build-publish.outputs.image-digest }}
       image-name: maskinporten-onboarding-backend
-      deployment-environment: systest
+      image-version: ${{ needs.call-workflow-image-build-publish.outputs.image-version }}
+      kubernetes-repo: kundetjenester-cd-external
+      product-name: onboarding
     secrets: inherit
