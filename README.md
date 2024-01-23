@@ -1,4 +1,4 @@
-# Maskinporten-onboaring-backend
+# Maskinporten-onboarding-backend
 
 ## Development
 
