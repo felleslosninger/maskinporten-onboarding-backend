@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,7 +37,8 @@ public class ProxyEnvironmentController {
                                             HttpServletRequest servletRequest,
                                             HttpServletResponse servletResponse,
                                             @PathVariable("env") String environment,
-                                            @RequestParam(value = "debug", required = false, defaultValue = "false") boolean debug) throws Throwable {
+                                            @RequestParam(value = "debug", required = false, defaultValue = "false") boolean debug,
+                                            @RequestParam(value = "convert", required = false, defaultValue = "false") boolean convert) throws Throwable {
         OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
 
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
@@ -50,6 +52,8 @@ public class ProxyEnvironmentController {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .get();
         logger.info("got response with status code {}", response.getStatusCode());
+
+        if (convert) return new ResponseEntity<>(new String(response.getBody(), StandardCharsets.UTF_8), HttpStatus.OK);
 
         return debug ? new ResponseEntity<>("OK", HttpStatus.OK) : response;
     }
