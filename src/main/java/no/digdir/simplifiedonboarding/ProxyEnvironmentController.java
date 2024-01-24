@@ -35,7 +35,8 @@ public class ProxyEnvironmentController {
     public ResponseEntity<?> proxyPathToEnv(ProxyExchange<byte[]> proxy, Authentication authentication,
                                             HttpServletRequest servletRequest,
                                             HttpServletResponse servletResponse,
-                                            @PathVariable("env") String environment) throws Throwable {
+                                            @PathVariable("env") String environment,
+                                            @RequestParam(value = "debug", required = false, defaultValue = "false") boolean debug) throws Throwable {
         OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
 
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
@@ -49,7 +50,8 @@ public class ProxyEnvironmentController {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .get();
         logger.info("got response with status code {}", response.getStatusCode());
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+
+        return debug ? new ResponseEntity<>("OK", HttpStatus.OK) : response;
     }
 
     @GetMapping("/**")
