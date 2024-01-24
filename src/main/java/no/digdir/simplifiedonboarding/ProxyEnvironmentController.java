@@ -37,7 +37,6 @@ public class ProxyEnvironmentController {
                                             HttpServletRequest servletRequest,
                                             HttpServletResponse servletResponse,
                                             @PathVariable("env") String environment,
-                                            @RequestParam(value = "debug", required = false, defaultValue = "false") boolean debug,
                                             @RequestParam(value = "convert", required = false, defaultValue = "false") boolean convert) throws Throwable {
         OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
 
@@ -51,11 +50,8 @@ public class ProxyEnvironmentController {
         var response = proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .get();
-        logger.info("got response with status code {}", response.getStatusCode());
-
-        if (convert) return new ResponseEntity<>(new String(response.getBody(), StandardCharsets.UTF_8), HttpStatus.OK);
-
-        return debug ? new ResponseEntity<>("OK", HttpStatus.OK) : response;
+        if (!convert) return response;
+        return new ResponseEntity<>(response.getBody(), response.getStatusCode());
     }
 
     @GetMapping("/**")
