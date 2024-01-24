@@ -36,8 +36,7 @@ public class ProxyEnvironmentController {
     public ResponseEntity<?> proxyPathToEnv(ProxyExchange<byte[]> proxy, Authentication authentication,
                                             HttpServletRequest servletRequest,
                                             HttpServletResponse servletResponse,
-                                            @PathVariable("env") String environment,
-                                            @RequestParam(value = "convert", required = false, defaultValue = "false") boolean convert) throws Throwable {
+                                            @PathVariable("env") String environment) throws Throwable {
         OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
 
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
@@ -47,11 +46,9 @@ public class ProxyEnvironmentController {
             uri += "?" + queries;
         }
         logger.info("GET to {}", uri);
-        var response = proxy.uri(uri)
+        return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
-                .get();
-        if (!convert) return response;
-        return new ResponseEntity<>(response.getBody(), response.getStatusCode());
+                .get(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
     @GetMapping("/**")
@@ -66,7 +63,7 @@ public class ProxyEnvironmentController {
         }
         logger.info("GET to {}", uri);
         return proxy.uri(uri)
-                .get();
+                .get(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
 
@@ -83,7 +80,7 @@ public class ProxyEnvironmentController {
         return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .body(servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator())))
-                .post();
+                .post(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
     @DeleteMapping("/datasharing/**")
@@ -99,7 +96,7 @@ public class ProxyEnvironmentController {
         logger.info("DELETE to {}", uri);
         return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
-                .delete();
+                .delete(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
 
