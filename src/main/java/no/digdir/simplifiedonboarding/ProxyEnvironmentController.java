@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,7 +37,8 @@ public class ProxyEnvironmentController {
     public ResponseEntity<?> proxyPathToEnv(ProxyExchange<byte[]> proxy, Authentication authentication,
                                             HttpServletRequest servletRequest,
                                             HttpServletResponse servletResponse,
-                                            @PathVariable("env") String environment) throws Throwable {
+                                            @PathVariable("env") String environment,
+                                            @RequestParam(value = "removeheaders", required = false) List<String> removeHeaders) throws Throwable {
         OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
 
         MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
@@ -49,10 +51,12 @@ public class ProxyEnvironmentController {
         var response = proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .get();
-        var headers = new HttpHeaders(response.getHeaders());
         logger.info("proxy response headers: {}", response.getHeaders());
-        headers.remove(HttpHeaders.SET_COOKIE);
-        headers.remove(HttpHeaders.CONNECTION);
+
+        var headers = new HttpHeaders(response.getHeaders());
+        removeHeaders.forEach(headers::remove);
+        logger.info("response headers: {}", headers);
+
         return new ResponseEntity<>(response.getBody(), headers, response.getStatusCode());
     }
 
