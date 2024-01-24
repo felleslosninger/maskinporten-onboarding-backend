@@ -45,30 +45,11 @@ public class ProxyEnvironmentController {
             uri += "?" + queries;
         }
         logger.info("GET to {}", uri);
-        return proxy.uri(uri)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
-                .get();
-    }
-
-    @GetMapping("/test/datasharing/**")
-    public ResponseEntity<?> proxyPathToEnvTest(ProxyExchange<byte[]> proxy, Authentication authentication,
-                                            HttpServletRequest servletRequest,
-                                            HttpServletResponse servletResponse,
-                                            @PathVariable("env") String environment) throws Throwable {
-        OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
-
-        MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
-        String queries =servletRequest.getQueryString();
-        String uri = config.getApi() + proxy.path("/api/" + config.getEnvironment());
-        if (queries != null) {
-            uri += "?" + queries;
-        }
-        logger.info("GET to {}", uri);
         var response = proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .get();
-        logger.info("Got response with status code {}", response.getStatusCode());
-        return new ResponseEntity<>("Hello", HttpStatus.OK);
+        logger.info("got response with status code {}", response.getStatusCode());
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @GetMapping("/**")
