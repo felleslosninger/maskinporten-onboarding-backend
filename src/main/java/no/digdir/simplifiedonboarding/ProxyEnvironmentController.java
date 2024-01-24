@@ -49,8 +49,11 @@ public class ProxyEnvironmentController {
         var response = proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .get();
+        var headers = response.getHeaders();
         logger.info("proxy response headers: {}", response.getHeaders());
-        return new ResponseEntity<>(response.getBody(), response.getStatusCode());
+
+        headers.remove("Set-Cookie");
+        return new ResponseEntity<>(response.getBody(), headers, response.getStatusCode());
     }
 
     @GetMapping("/**")
