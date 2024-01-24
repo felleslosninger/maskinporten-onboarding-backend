@@ -53,9 +53,12 @@ public class ProxyEnvironmentController {
                 .get();
         logger.info("proxy response headers: {}", response.getHeaders());
 
-        var headers = new HttpHeaders(response.getHeaders());
-        removeHeaders.forEach(headers::remove);
-        logger.info("response headers: {}", headers);
+        HttpHeaders headers = null;
+        if (removeHeaders != null) {
+            headers = new HttpHeaders(response.getHeaders());
+            removeHeaders.forEach(headers::remove);
+            logger.info("response headers: {}", headers);
+        }
 
         return new ResponseEntity<>(response.getBody(), headers, response.getStatusCode());
     }
