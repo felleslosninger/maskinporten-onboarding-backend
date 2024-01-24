@@ -49,10 +49,10 @@ public class ProxyEnvironmentController {
         var response = proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .get();
-        var headers = response.getHeaders();
+        var headers = new HttpHeaders(response.getHeaders());
         logger.info("proxy response headers: {}", response.getHeaders());
-
-        headers.remove("Set-Cookie");
+        headers.remove(HttpHeaders.SET_COOKIE);
+        headers.remove(HttpHeaders.CONNECTION);
         return new ResponseEntity<>(response.getBody(), headers, response.getStatusCode());
     }
 
