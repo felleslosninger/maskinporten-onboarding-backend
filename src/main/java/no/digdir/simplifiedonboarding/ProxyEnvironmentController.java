@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.mvc.ProxyExchange;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
@@ -47,28 +46,7 @@ public class ProxyEnvironmentController {
         logger.info("GET to {}", uri);
         return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
-                .get();
-    }
-
-    @GetMapping("/test/datasharing/**")
-    public ResponseEntity<?> proxyPathToEnvTest(ProxyExchange<byte[]> proxy, Authentication authentication,
-                                            HttpServletRequest servletRequest,
-                                            HttpServletResponse servletResponse,
-                                            @PathVariable("env") String environment) throws Throwable {
-        OAuth2AccessToken accessToken = getAccessToken(authentication, servletRequest, servletResponse);
-
-        MaskinportenConfig.EnvironmentConfig config = maskinportenConfig.getConfigFor(environment);
-        String queries =servletRequest.getQueryString();
-        String uri = config.getApi() + proxy.path("/api/" + config.getEnvironment());
-        if (queries != null) {
-            uri += "?" + queries;
-        }
-        logger.info("GET to {}", uri);
-        var response = proxy.uri(uri)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
-                .get();
-        logger.info("Got response with status code {}", response.getStatusCode());
-        return new ResponseEntity<>("Hello", HttpStatus.OK);
+                .get(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
     @GetMapping("/**")
@@ -83,7 +61,7 @@ public class ProxyEnvironmentController {
         }
         logger.info("GET to {}", uri);
         return proxy.uri(uri)
-                .get();
+                .get(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
 
@@ -100,7 +78,7 @@ public class ProxyEnvironmentController {
         return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .body(servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator())))
-                .post();
+                .post(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
     @DeleteMapping("/datasharing/**")
@@ -116,7 +94,7 @@ public class ProxyEnvironmentController {
         logger.info("DELETE to {}", uri);
         return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
-                .delete();
+                .delete(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
 
