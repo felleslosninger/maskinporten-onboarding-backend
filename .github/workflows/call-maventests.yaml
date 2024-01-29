@@ -5,7 +5,7 @@ name: Build with Maven and run tests
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   call-workflow-maven-build:
@@ -13,6 +13,7 @@ jobs:
     with:
       java-version: 17
     secrets: inherit
+
   call-container-scan:
     uses: felleslosninger/github-workflows/.github/workflows/ci-spring-boot-container-scan.yml@main
     with:

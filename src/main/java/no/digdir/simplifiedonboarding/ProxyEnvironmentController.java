@@ -46,7 +46,7 @@ public class ProxyEnvironmentController {
         logger.info("GET to {}", uri);
         return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
-                .get();
+                .get(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
     @GetMapping("/**")
@@ -61,7 +61,7 @@ public class ProxyEnvironmentController {
         }
         logger.info("GET to {}", uri);
         return proxy.uri(uri)
-                .get();
+                .get(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
 
@@ -78,7 +78,7 @@ public class ProxyEnvironmentController {
         return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken.getTokenValue())
                 .body(servletRequest.getReader().lines().collect(Collectors.joining(System.lineSeparator())))
-                .post();
+                .post(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
     @DeleteMapping("/datasharing/**")
@@ -94,7 +94,7 @@ public class ProxyEnvironmentController {
         logger.info("DELETE to {}", uri);
         return proxy.uri(uri)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer "+accessToken.getTokenValue())
-                .delete();
+                .delete(response -> new ResponseEntity<>(response.getBody(), response.getStatusCode()));
     }
 
 
