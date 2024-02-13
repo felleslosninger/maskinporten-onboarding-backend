@@ -11,7 +11,7 @@ jobs:
   call-workflow-image-build-publish:
     uses: felleslosninger/github-workflows/.github/workflows/ci-spring-boot-build-publish-image.yml@main
     with:
-      java-version: 17
+      java-version: 21
     secrets: inherit
 
   call-update-image:
