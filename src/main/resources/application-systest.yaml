@@ -4,14 +4,14 @@
 
 ANSATTPORTEN_API_BASE_URL: https://test.ansattporten.no
 ANSATTPORTEN_LOGIN_BASE_URL: https://login.test.ansattporten.no
-MASKINPORTEN_API_URL: https://api.test.samarbeid.digdir.no
+#MASKINPORTEN_API_URL: https://api.test.samarbeid.digdir.no
 
 ENV1: test
 ENV1_MASKINPORTEN_API_URL: https://api.test.samarbeid.digdir.no
-ENV1_AUTH_SERVER: https://api.test.samarbeid.digdir.no
+ENV1_AUTH_SERVER: https://test.maskinporten.no
 ENV2: ver2
 ENV2_MASKINPORTEN_API_URL: https://api.test.samarbeid.digdir.no
-ENV2_AUTH_SERVER: https://ver2.maskinporten.no
+ENV2_AUTH_SERVER: https://test.maskinporten.no
 SIMPLIFIED_ONBOARDING_FRONTEND_URL: https://onboarding.maskinporten.dev
 
 spring:
