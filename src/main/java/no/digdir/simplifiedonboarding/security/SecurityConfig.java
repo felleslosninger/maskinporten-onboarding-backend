@@ -39,7 +39,7 @@ public class SecurityConfig {
                         -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/api/config").permitAll()
-                        .requestMatchers("/health/**", "/info/**", "/version/**").permitAll()
+                        .requestMatchers("/health/**", "/info/**", "/version/**", "/prometheus").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout
