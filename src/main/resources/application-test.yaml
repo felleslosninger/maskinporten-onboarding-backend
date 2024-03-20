@@ -9,9 +9,9 @@ ANSATTPORTEN_LOGIN_BASE_URL: https://login.test.ansattporten.no
 ENV1: test
 ENV1_MASKINPORTEN_API_URL: https://api.test.samarbeid.digdir.no
 ENV1_AUTH_SERVER: https://test.maskinporten.no
-ENV2: ver2
-ENV2_MASKINPORTEN_API_URL: https://api.test.samarbeid.digdir.no
-ENV2_AUTH_SERVER: https://test.maskinporten.no
+ENV2: dev
+ENV2_MASKINPORTEN_API_URL: https://serviceprovider-api.apps.eid-systest.norwayeast.aroapp.io
+ENV2_AUTH_SERVER: https://maskinporten.dev
 SIMPLIFIED_ONBOARDING_FRONTEND_URL: https://onboarding.test.maskinporten.no
 
 spring:
