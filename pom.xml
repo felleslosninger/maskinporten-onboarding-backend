@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.2</version>
+		<version>3.2.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>no.digdir</groupId>
@@ -22,6 +22,8 @@
 		<logback.version>1.4.14</logback.version>
 		<logstash.logback.version>7.4</logstash.logback.version>
 		<open.telemetry.version>1.32.0</open.telemetry.version>
+		<spring-security.version>6.2.2</spring-security.version>
+		<spring-web.version>6.1.4</spring-web.version>
 	</properties>
 	<dependencies>
 
@@ -95,6 +97,11 @@
 				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring-web.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
