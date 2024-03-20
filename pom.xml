@@ -22,7 +22,7 @@
 		<logback.version>1.4.14</logback.version>
 		<logstash.logback.version>7.4</logstash.logback.version>
 		<open.telemetry.version>1.32.0</open.telemetry.version>
-		<spring-security.version>6.2.2</spring-security.version>
+		<spring-security.version>6.2.3</spring-security.version>
 	</properties>
 	<dependencies>
 
@@ -34,6 +34,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>6.1.5</version>
 		</dependency>
 
 		<dependency>
