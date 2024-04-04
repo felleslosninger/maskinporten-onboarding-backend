@@ -31,17 +31,24 @@ public class AppController {
     private String environment;
 
     @GetMapping("/userinfo")
-    public Map<String, String > getAuthenticatedPrincipal(@AuthenticationPrincipal OAuth2User principal) {
+    public Map<String, Object > getAuthenticatedPrincipal(@AuthenticationPrincipal OAuth2User principal) {
         if (principal != null) {
-            HashMap<String, String> userinfo = new HashMap<>();
+            HashMap<String, Object> userinfo = new HashMap<>();
             String name = principal.getAttribute("name");
             userinfo.put("name", name);
-            List authorization_details = principal.getAttribute("authorization_details");
-            List reportees = (List)((Map<String, Object>) authorization_details.get(0)).get("reportees");
-            Object reporteeName = ((Map<String, Object>) reportees.get(0)).get("Name");
-            Object reporteeId = ((Map<String, Object>) reportees.get(0)).get("ID");
-            userinfo.put("reporteeName",reporteeName.toString());
-            userinfo.put("reporteeId", reporteeId.toString().split(":")[1]);
+            if (principal.getAttribute("authorization_details") != null) {
+                List authorization_details = principal.getAttribute("authorization_details");
+                List reportees = (List)((Map<String, Object>) authorization_details.get(0)).get("reportees");
+                Object reporteeName = ((Map<String, Object>) reportees.get(0)).get("Name");
+                Object reporteeId = ((Map<String, Object>) reportees.get(0)).get("ID");
+                userinfo.put("reporteeName",reporteeName.toString());
+                userinfo.put("reporteeId", reporteeId.toString().split(":")[1]);
+                userinfo.put("trusted", true);
+            } else {
+                Map<String, Object> org = principal.getAttribute("user_org");
+                userinfo.put("reporteeId", org.get("ID").toString().split(":")[1]);
+                userinfo.put("trusted", false);
+            }
             return userinfo;
         }
         return new HashMap<>();
