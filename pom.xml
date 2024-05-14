@@ -23,7 +23,7 @@
 		<logstash.logback.version>7.4</logstash.logback.version>
 		<open.telemetry.version>1.32.0</open.telemetry.version>
 		<spring-security.version>6.2.3</spring-security.version>
-		<spring-web.version>6.1.5</spring-web.version>
+		<spring-web.version>6.1.6</spring-web.version>
 	</properties>
 	<dependencies>
 

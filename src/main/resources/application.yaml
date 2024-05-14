@@ -1,11 +1,3 @@
-maskinporten-config:
-  - environment: ${ENV1}
-    api: ${ENV1_MASKINPORTEN_API_URL}
-    authorization-server: ${ENV1_AUTH_SERVER}
-  - environment: ${ENV2}
-    api: ${ENV2_MASKINPORTEN_API_URL}
-    authorization-server: ${ENV2_AUTH_SERVER}
-
 frontend:
   uri: ${SIMPLIFIED_ONBOARDING_FRONTEND_URL}
 

@@ -1,17 +1,14 @@
 # Requires ANSATTPORTEN_CLIENT_SECRET from env vars
 
-ANSATTPORTEN_API_BASE_URL: https://test.ansattporten.no
 ANSATTPORTEN_CLIENT_ID: forenklet_onboarding_dev
+ANSATTPORTEN_API_BASE_URL: https://test.ansattporten.no
 ANSATTPORTEN_LOGIN_BASE_URL: https://login.test.ansattporten.no
-#MASKINPORTEN_API_URL: https://api.test.samarbeid.digdir.no
-
-ENV1: test
-ENV1_MASKINPORTEN_API_URL: https://api.test.samarbeid.digdir.no
-ENV1_AUTH_SERVER: https://test.maskinporten.no
-ENV2: ver2
-ENV2_MASKINPORTEN_API_URL: https://api.test.samarbeid.digdir.no
-ENV2_AUTH_SERVER: https://test.maskinporten.no
 SIMPLIFIED_ONBOARDING_FRONTEND_URL: http://localhost:3000
+
+maskinporten-config:
+  - environment: test
+    api: https://api.test.samarbeid.digdir.no
+    authorization-server: https://test.maskinporten.no
 
 spring:
   application:
