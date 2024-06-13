@@ -8,7 +8,7 @@ SIMPLIFIED_ONBOARDING_FRONTEND_URL: https://onboarding.maskinporten.dev
 
 maskinporten-config:
   - environment: dev
-    api: https://serviceprovider-api.apps.eid-systest.norwayeast.aroapp.io
+    api: https://api.samarbeid.digdir.dev
     authorization-server: https://maskinporten.dev
 
 spring:
