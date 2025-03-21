@@ -133,6 +133,6 @@
 			<name>GitHub felleslosninger Apache Maven Packages</name>
 			<url>https://maven.pkg.github.com/felleslosninger/.github</url>
 		</repository>
-	</repositories>git
+	</repositories>
 
 </project>
